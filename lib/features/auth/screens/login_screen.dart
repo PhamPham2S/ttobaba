@@ -3,6 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_text_styles.dart';
+import '../../../core/widgets/app_text_field.dart';
+import '../../../core/widgets/app_button.dart';
 
 class LoginScreen extends ConsumerWidget {
   const LoginScreen({super.key});
@@ -46,24 +48,48 @@ class LoginScreen extends ConsumerWidget {
 
                 const SizedBox(height: 30),
 
-                // 3. 입력 필드 (아이디)
-                _buildTextField(
-                  label: '아이디',
-                  hint: '아이디를 입력해주세요',
-                  obscureText: false,
+                Align(
+                  alignment: Alignment.centerLeft, // 👈 왼쪽 중앙 정렬
+                  child: Text(
+                    '아이디',
+                    style: AppTextStyles.ptdBold(12)
+                        .copyWith(color: AppColors.black0),
+                  ),
                 ),
+
+                const SizedBox(height: 8),
+
+                // 3. 입력 필드 (아이디)
+                const AppTextField(hint: '아이디를 입력해주세요', fontSize: 12),
 
                 const SizedBox(height: 20),
 
-                // 4. 입력 필드 (비밀번호)
-                _buildTextField(
-                  label: '비밀번호',
-                  hint: '비밀번호를 입력해주세요',
-                  obscureText: true,
+                Align(
+                  alignment: Alignment.centerLeft, // 👈 왼쪽 중앙 정렬
+                  child: Text(
+                    '비밀번호',
+                    style: AppTextStyles.ptdBold(12)
+                        .copyWith(color: AppColors.black0),
+                  ),
                 ),
+
+                const SizedBox(height: 8),
+
+                // 4. 입력 필드 (비밀번호)
+                const AppTextField(hint: '비밀번호를 입력해주세요', fontSize: 12),
 
                 const SizedBox(height: 12),
 
+                AppButton(
+                  text: '시작하기',
+                  onPressed: () {
+                      // 로그인 성공했다고 가정하고 홈으로 이동!
+                      //context.go('/home'); // 아까 설정한 GoRouter 경로
+                  }, 
+                  borderRadius: 4,
+                  height: 40,
+                  textStyle: AppTextStyles.ptdBold(12),
+                ),
                 // 5. 로그인 버튼
                 SizedBox(
                   width: double.infinity,
@@ -112,59 +138,11 @@ class LoginScreen extends ConsumerWidget {
                 ),
 
                 const SizedBox(height: 100),
-
               ],
             ),
           ),
         )),
       ),
-    );
-  }
-
-  // 입력창 위젯 (중복 코드를 줄이기 위해 메서드로 분리)
-  Widget _buildTextField({
-    required String label,
-    required String hint,
-    required bool obscureText,
-  }) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(label,
-            style: AppTextStyles.ptdBold(12).copyWith(color: AppColors.black0)),
-        const SizedBox(height: 5),
-
-        // 1. SizedBox로 높이를 40으로 강제 고정합니다.
-        SizedBox(
-          height: 40,
-          child: TextField(
-            obscureText: obscureText,
-            // 2. 글자를 수직 중앙에 오게 만듭니다.
-            textAlignVertical: TextAlignVertical.center,
-            style:
-                AppTextStyles.ptdRegular(12).copyWith(color: AppColors.grey0),
-            decoration: InputDecoration(
-              hintText: hint,
-              hintStyle:
-                  AppTextStyles.ptdRegular(12).copyWith(color: AppColors.grey0),
-
-              contentPadding:
-                  const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
-
-              isDense: true, // 4. 내부 여백을 더 타이트하게 잡아주는 옵션입니다.
-
-              enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(4),
-                borderSide: const BorderSide(color: AppColors.grey0, width: 1),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(4),
-                borderSide: const BorderSide(color: AppColors.grey0, width: 1),
-              ),
-            ),
-          ),
-        ),
-      ],
     );
   }
 }
